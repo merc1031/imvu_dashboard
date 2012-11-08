@@ -1,0 +1,49 @@
+<script type='text/javascript'>
+    $(function() {
+        // These settings override the defaults set in application.coffee. You can do this on a per dashboard basis.
+        Dashing.widget_base_dimensions = [370, 340]
+        Dashing.numColumns = 5
+    });
+</script>
+
+<% content_for(:title) { "1080p dashboard" } %>
+<div class="gridster">
+    <ul>
+        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+            <div data-view="Clock"></div>
+            <i class="icon-time icon-background"></i>
+        </li>
+
+        <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+            <div data-title="Web" data-view="Buildbot"></div>
+        </li>
+
+        <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+            <div data-title="Web Hypo" data-view="Buildbot"></div>
+        </li>
+
+        <li data-row="2" data-col="1" data-sizex="1" data-sizey="2">
+            <div data-title="Caltrain" data-view="Text"></div>
+        </li>
+
+        <li data-row="2" data-col="2" data-sizex="2" data-sizey="2">
+            <div data-title="Push status" data-view="Number"></div>
+        </li>
+
+        <li data-row="2" data-col="4" data-sizex="1" data-sizey="1">
+            <div data-title="Client" data-view="Buildbot"></div>
+        </li>
+
+        <li data-row="2" data-col="5" data-sizex="1" data-sizey="1">
+            <div data-title="Client Hypo" data-view="Buildbot"></div>
+        </li>
+
+        <li data-row="3" data-col="4" data-sizex="1" data-sizey="1">
+            <div data-id="web_pulled_slaves" data-title="Web Pulled Slaves" data-view="Number"></div>
+        </li>
+
+        <li data-row="3" data-col="4" data-sizex="1" data-sizey="1">
+            <div data-id="client_pulled_slaves" data-title="Client Pulled Slaves" data-view="Number"></div>
+        </li>
+    </ul>
+</div>
