@@ -17,9 +17,9 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);;
     background-color: transparent;
 
     h1 {
-        background-color: $background-color;
         color: $title-color;
         font-size: 20px;
+        background-color: transparent;
     }
 
     ul {
@@ -41,9 +41,11 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);;
                 div {
                     height: 100%;
                     background-color: $background-color;
+                    padding: 5px 0px;
 
                     span {
-                        padding: 5px 0px;
+                        background-color: transparent;
+                        padding: 0px;
                         display: inline-block;
                         float: left;
                     }
@@ -61,6 +63,7 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);;
                     }
 
                     .rising {
+                        width: 25%;
                     }
                 }
             }
@@ -82,6 +85,16 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);;
     h2 {
         font-size: 25px;
         color: $value-color;
+        text-transform: none;
+        background-color: transparent;
     }
+
+    .type {
+        font-size: 25px;
+        color: $title-color;
+        text-transform: uppercase;
+        background-color: transparent;
+    }
+
 
 }
