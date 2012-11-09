@@ -19,6 +19,7 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);;
     h1 {
         background-color: $background-color;
         color: $title-color;
+        font-size: 20px;
     }
 
     ul {
@@ -40,6 +41,27 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);;
                 div {
                     height: 100%;
                     background-color: $background-color;
+
+                    span {
+                        padding: 5px 0px;
+                        display: inline-block;
+                        float: left;
+                    }
+
+                    .current {
+                        width: 25%;
+                    }
+
+                    .user {
+                        width: 30%;
+                    }
+
+                    .time {
+                        width: 20%;
+                    }
+
+                    .rising {
+                    }
                 }
             }
         }
@@ -53,7 +75,12 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);;
         }
     }
 
+    .template {
+        display: none;
+    }
+
     h2 {
+        font-size: 25px;
         color: $value-color;
     }
 

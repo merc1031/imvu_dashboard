@@ -7,7 +7,16 @@ def get_push_status (source)
     response = Net::HTTP.get_response(base_uri)
     if response.is_a?(Net::HTTPSuccess)
         body = JSON.parse(response.body)
-        return JSON.parse(body['value'])
+        data = JSON.parse(body['value'])
+        data['start'] = data['start'][10, 8]
+        data['rev'] = data['rev'][0, 8]
+        if data['end'].nil?
+            data['status'] = -1
+        else
+            data['end'] = data['end'][10, 8]
+            data['status'] = body['success']
+        end
+        return data
     end
     return {}
 end

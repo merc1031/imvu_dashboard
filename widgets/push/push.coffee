@@ -8,9 +8,14 @@ class Dashing.Push extends Dashing.Widget
         status_key = '.status_' + key
         if $(@node).find(status_key).length == 0
             @appendNew key, data
-        $(@node).find(status_key).text(data.user)
+        $elem = $(@node).find(status_key)
+        $elem.find('.type').text(key)
+        $elem.find('.current h2').text('todo')
+        $elem.find('.rising h2').text(data.rev)
+        $elem.find('.user h2').text(data.user)
+        $elem.find('.time h2').text(data.start)
 
-    appendNew: (key, data) ->
-        $(@node).find('.push_types').append('<li><span><div class="status_' + key + '"></div></span></li>')
-
-
+    appendNew: (key) ->
+        $elem = $(@node).find('.template li').clone()
+        $elem.addClass('status_' + key)
+        $(@node).find('.push_types').append($elem)
