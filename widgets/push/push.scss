@@ -12,23 +12,49 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);;
 // ----------------------------------------------------------------------------
 .widget-push {
 
-  background-color: $background-color;
+    padding: 0px !important;
 
-  h1 {
-    color: $title-color;
-  }
+    background-color: transparent;
 
-  h2 {
-    color: $value-color;
-  }
+    h1 {
+        background-color: $background-color;
+        color: $title-color;
+    }
 
-  .change-rate {
-    font-weight: 500;
-    font-size: 30px;
-    color: $value-color;
-  }
+    ul {
+        display: table;
+        height: 100%;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
 
-  .more-info {
-    color: $moreinfo-color;
-  }
+        li {
+            display: table-row;
+            width: 100%;
+
+            span {
+                padding: 5px 0px;
+                display: table-cell;
+                vertical-align:middle;
+
+                div {
+                    height: 100%;
+                    background-color: $background-color;
+                }
+            }
+        }
+
+        :first-child span {
+            padding-top: 0px;
+        }
+
+        :last-child span {
+            padding-bottom: 0px;
+        }
+    }
+
+    h2 {
+        color: $value-color;
+    }
+
 }
