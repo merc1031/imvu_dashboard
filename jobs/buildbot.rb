@@ -36,7 +36,7 @@ def get_build_data(buildbot)
 end
 
 def extract_revisions(data)
-    data['sourceStamp']['changes'].collect { |change| { :user => change['who'], :rev => change['rev'] } }
+    data['sourceStamp']['changes'].collect { |change| { :user => change['who'], :rev => change['rev'][0, 8] } }
 end
 
 def extract_state(build_data, aggregator_data)
