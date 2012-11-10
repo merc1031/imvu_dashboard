@@ -1,13 +1,20 @@
 class Dashing.Buildbot extends Dashing.Widget
-    ready: ->
+
+    success   = '#96bf48'
+    building  = '#eb9c3c'
+    failure   = '#dc5945'
+    exception = '#9c4274'
 
     onData: (data) ->
-        @updateStatus data.status
+        if data.state
+            @updateColor data.state
 
-    updateStatus: (status) ->
-        @set('failed', status.failed)
-        @set('success', status.success)
-        @set('warnings', status.warnings)
-        @set('skipped', status.skipped)
-        @set('exception', status.exception)
-        @set('retry', status.retry)
+    updateColor: (state) ->
+        switch state
+            when 'idle' then @setColor success
+            when 'building' then @setColor building
+            when 'failure' then @setColor failure
+            when 'exception' then @setColor exception
+
+    setColor: (color) ->
+        $(@node).css('background-color', color)
