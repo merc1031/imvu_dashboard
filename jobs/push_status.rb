@@ -1,7 +1,7 @@
 require 'net/http'
 require 'json'
 
-def get_build_metadata (key)
+def get_build_metadata(key)
     base_uri = URI.parse('http://engprocess.corp.imvu.com/buildslaves/api/build_metadata.php');
     base_uri.query = URI.encode_www_form({ :action => 'get', :key => key })
     response = Net::HTTP.get_response(base_uri)
@@ -11,7 +11,7 @@ def get_build_metadata (key)
     return nil
 end
 
-def get_push_status (source)
+def get_push_status(source)
     raw = get_build_metadata "#{source}_push_status"
     unless raw.nil?
         data = JSON.parse(raw['value'])
@@ -34,7 +34,7 @@ def get_push_status (source)
     return {}
 end
 
-def get_current_revision (source)
+def get_current_revision(source)
     data = get_build_metadata "#{source}_rev_in_production"
     unless data.nil?
         return data['value'][0, 8]
