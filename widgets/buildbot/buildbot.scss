@@ -10,8 +10,52 @@ $background-color: #96bf48;
     background-color: $background-color;
     vertical-align: top !important;
     padding: 12px !important;
-}
 
-.widget-buildbot h1 {
-    text-align: left;
+    h1 {
+        text-align: left;
+    }
+
+    .title_block {
+        width: 100%;
+
+        span h1 {
+            display: inline-block;
+        }
+
+        .builder {
+            display: inline-block;
+            float: left;
+        }
+
+        .queue {
+            display: inline-block;
+            float: right;
+            text-align: center;
+
+            .num_queued {
+                width: 25px;
+            }
+        }
+    }
+
+    .build_block {
+        clear: both;
+
+        h1 {
+            font-size: 25px;
+        }
+
+        span {
+            display: inline-block;
+            float: left;
+        }
+
+        .last {
+            width: 25%;
+        }
+
+        .current {
+
+        }
+    }
 }

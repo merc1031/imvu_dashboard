@@ -1,6 +1,18 @@
-<h1 data-bind="title"></h1>
-<div class="revisions">
-    <h1></h1>
-    <h2></h2>
+<div class="title_block">
+    <span class="builder">
+        <h1 data-bind="title"></h1>
+    </span>
+    <span class="queue">
+        <h1>Queue:</h1>
+        <h1 class="num_queued"></h1>
+    </span>
 </div>
-<h2 data-bind="current_build"></h2>
+<div class="build_block">
+    <span class="last">
+        <h1>Last</h1>
+        <h2 class="builds"></h2>
+    </span>
+    <span class="current">
+        <h1>Currently Building</h1>
+    </span>
+</div>

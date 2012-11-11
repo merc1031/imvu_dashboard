@@ -7,7 +7,11 @@ class Dashing.Buildbot extends Dashing.Widget
 
     onData: (data) ->
         if data.state
+            @updateQueue data.queue
             @updateColor data.state
+
+    updateQueue: (num) ->
+        $(@node).find('.num_queued').text(num)
 
     updateColor: (state) ->
         switch state
