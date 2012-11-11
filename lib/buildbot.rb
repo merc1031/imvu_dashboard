@@ -41,7 +41,7 @@ module Buildbot
     end
 
     def self.extract_state(build_data, aggregator_data)
-        if build_data['text'].include? 'failure'
+        if build_data['text'].include? 'failed'
             'failure'
         elsif build_data['text'].include? 'exception'
             'exception'
