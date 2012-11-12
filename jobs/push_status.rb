@@ -19,7 +19,7 @@ def get_push_status(source)
         data['rev_in_production'] = rev_in_production
         data['start'] = data['start'][11, 8]
         data['rev'] = data['rev'][0, 8]
-        data['end'] = data['end'][10, 8] unless data['end'].nil?
+        data['end'] = data['end'][11, 8] unless data['end'].nil?
 
         if data['end'].nil?
             data['status'] = -1
