@@ -6,6 +6,7 @@ class Dashing.Buildbot extends Dashing.Widget
     exception:  '#9c4274'
 
     currentBuild: 0
+    currentState: 'unknown'
 
     ready: ->
         @currentBuild = 0
@@ -14,19 +15,25 @@ class Dashing.Buildbot extends Dashing.Widget
     onData: (data) ->
         if data && data.current.state
             @updateQueue data.current.queue
-            if @isDifferentRevision data.current
+            if @shouldUpdate data.current
                 @updateCurrent data.current
                 @updatePrevious data.previous
+
+    shouldUpdate: (revision) ->
+        @isDifferentRevision(revision) || @isDifferentState(revision.state)
+
 
     isDifferentRevision: (revision) ->
         revision.revisions.length > 0 && @currentBuild != revision.revisions[0].rev
 
+    isDifferentState: (state) ->
+        @currentState != state
 
     updateCurrent: (data) ->
         @updateColor $(@node), data.state
         $(@node).find('.current .revisions').html('<h2>' + data.revisions[0].user + ', ' + data.revisions[0].rev + '</h2>')
-
         @currentBuild = data.revisions[0].rev
+        @currentState = data.state
 
     updatePrevious: (data) ->
         @updateColor $(@node).find('.previous .cell .container'), data.state
