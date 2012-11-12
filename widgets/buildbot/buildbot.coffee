@@ -31,7 +31,7 @@ class Dashing.Buildbot extends Dashing.Widget
 
     updateCurrent: (data) ->
         @updateColor $(@node), data.state
-        $(@node).find('.current .revisions').html('<h2>' + data.revisions[0].user + ', ' + data.revisions[0].rev + '</h2>')
+        $(@node).find('.current .revisions').html('<h2>' + data.revisions[0].rev + ', ' + data.revisions[0].user + '</h2>')
         @currentBuild = data.revisions[0].rev
         @currentState = data.state
 
@@ -45,9 +45,10 @@ class Dashing.Buildbot extends Dashing.Widget
         loopBound = Math.min(3, numRevisions) - 1
         for i in [0..loopBound] by 1
             formatted += data.revisions[i].user
-            formatted += ', ' if i < loopBound - 1
+            if i < loopBound
+                formatted += ', '
 
-        if numRevisions > 1
+        if numRevisions > 3
             formatted += " and #{numRevisions} more"
         formatted += " at #{data.end}"
 
