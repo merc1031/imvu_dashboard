@@ -2,6 +2,7 @@ source :rubygems
 
 gem 'json'
 gem 'dashing'
+gem 'nokogiri'
 
 group :development, :test do
     gem 'rspec'
