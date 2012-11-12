@@ -2,6 +2,7 @@
 // Sass declarations
 // ----------------------------------------------------------------------------
 $background-color: #96bf48;
+$title-color:       rgba(255, 255, 255, 0.7);;
 
 // ----------------------------------------------------------------------------
 // Widget-buildbot styles
@@ -9,10 +10,19 @@ $background-color: #96bf48;
 .widget-buildbot {
     background-color: $background-color;
     vertical-align: top !important;
-    padding: 12px !important;
+    padding: 0px !important;
 
     h1 {
         text-align: left;
+        text-transform: none;
+        background-color: transparent;
+        color: $title-color;
+    }
+
+    h2 {
+        font-size: 25px;
+        text-transform: none;
+        background-color: transparent;
     }
 
     ul {
@@ -30,13 +40,47 @@ $background-color: #96bf48;
         li {
             display: table-row;
             width: 100%;
+
+            .cell {
+                display: table-cell;
+                width: 100%;
+
+                .container {
+                    overflow: hidden;
+                    padding: 0px 12px;
+
+                    span {
+                        display: inline-block;
+                        float: left;
+                    }
+                }
+            }
+        }
+
+        :first-child span .container {
+            padding: 12px;
+        }
+
+        :last-child .cell {
+            padding: 4px 0px 0px 0px;
+            background-color: #222;
+
+            .container {
+                padding: 12px 0px 0px 12px;
+                background-color: $background_color;
+            }
         }
 
         .current {
-            height: 55%;
+            height: 65%;
         }
 
         .previous {
+            vertical-align: middle;
+
+            .build {
+                padding: 0px 0px 0px 10px;
+            }
         }
 
         .title_block {
@@ -47,19 +91,13 @@ $background-color: #96bf48;
                 display: inline-block;
             }
 
-            .builder {
-                display: inline-block;
-                float: left;
-
-                .title {
-                    text-transform: uppercase;
-                    font-weight: 700;
-                }
+            .title {
+                text-transform: uppercase;
+                font-weight: 700;
             }
 
             .queue {
-                display: inline-block;
-                float: right;
+                float: right !important;
                 text-align: center;
 
                 .num_queued {

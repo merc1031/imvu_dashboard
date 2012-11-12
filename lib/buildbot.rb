@@ -29,18 +29,24 @@ module Buildbot
     end
 
     def self.get_build_data(buildbot)
-        build_data = get_current_build(buildbot)
+        current_build = get_current_build(buildbot)
         aggregator_data = get_aggregator(buildbot)
-        last_build_data = get_last_build(buildbot)
-        unless build_data.nil? or aggregator_data.nil?
+        previous_build_data = get_last_build(buildbot)
+        {
+            :current => extract_data(current_build, aggregator_data),
+            :previous => extract_data(previous_build_data)
+        }
+    end
+
+    def self.extract_data(build_data, aggregator_data=nil)
+        unless build_data.nil?
             times = extract_times build_data
             {
                 :revisions => extract_revisions(build_data),
                 :start => times[0],
                 :end => times[1],
-                :queue => aggregator_data['pendingBuilds'] || 0,
+                :queue => (aggregator_data && aggregator_data['pendingBuilds']) || 0,
                 :state => extract_state(build_data, aggregator_data),
-                :last_state => extract_state(last_build_data)
             }
         else
             {}
@@ -51,13 +57,15 @@ module Buildbot
         data['sourceStamp']['changes'].collect { |change| { :user => change['who'], :rev => change['rev'][0, 8] } }
     end
 
-    def self.extract_state(build_data, aggregator_data={ :state => 'idle' })
+    def self.extract_state(build_data, aggregator_data)
         if build_data['text'].include? 'failed'
             'failure'
         elsif build_data['text'].include? 'exception'
             'exception'
+        elsif not aggregator_data.nil?
+            aggregator_data['state'] || 'idle'
         else
-            aggregator_data['state'] || 'unkown'
+            'idle' # always default to idle for now
         end
     end
 

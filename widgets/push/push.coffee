@@ -4,6 +4,9 @@ class Dashing.Push extends Dashing.Widget
     failure     = '#dc5945'
     success     = '#96bf48'
 
+    ready: ->
+        @onData Dashing.lastEvents[@id]
+
     onData: (data) ->
         if data.statuses
             @updateStatus key, d for key, d of data.statuses
