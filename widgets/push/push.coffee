@@ -20,7 +20,7 @@ class Dashing.Push extends Dashing.Widget
         $elem.find('.current h2').text(data.rev_in_production)
         $elem.find('.rising h2').text(data.rev)
         $elem.find('.user h2').text(data.user)
-        $elem.find('.time h2').text(data.start)
+        @updateTime $elem, data
 
         $elem.find('.rising').toggle(data.status != 1)
         if data.status < 0
@@ -34,3 +34,11 @@ class Dashing.Push extends Dashing.Widget
         $elem = $(@node).find('.template li').clone()
         $elem.addClass('status_' + key)
         $(@node).find('.push_types').append($elem)
+
+    updateTime: ($elem, data) ->
+        if data.end
+            $elem.find('.time h1').text('Finished')
+            $elem.find('.time h2').text(data.end)
+        else
+            $elem.find('.time h1').text('Started')
+            $elem.find('.time h2').text(data.start)
