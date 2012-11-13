@@ -35,7 +35,6 @@ module Caltrain
     def self.noon_train_index(header)
         endIndex = 0
         header.each_with_index do |item, index|
-            puts item
             if item.eql? @@noonSwitchOver
                 endIndex = index
                 break
@@ -80,8 +79,8 @@ module Caltrain
         noonIndex = noon_train_index header
         data = 
         {
-            :northrow => add_metadata(map_time(nodeset_to_timelist(northRow), noonIndex), header),
-            :southrow => add_metadata(map_time(nodeset_to_timelist(southRow), noonIndex), header)
+            :northbound => add_metadata(map_time(nodeset_to_timelist(northRow), noonIndex), header),
+            :southbound => add_metadata(map_time(nodeset_to_timelist(southRow), noonIndex), header)
         }
     end
 
@@ -134,7 +133,7 @@ module Caltrain
                 y = x
             end
         end
-        ret = timelist 
+        return timelist
         #puts timelist
         #temp = timelist.map.with_index { |x,i| filter_time x, i, noonIndex }
         #ret = temp.delete_if { |x| x.eql? '-' }
@@ -144,5 +143,30 @@ module Caltrain
     def self.nodeset_to_timelist(nodeset, search='td')
         #nodeset.search('td').collect { |x| x.inner_text.strip }
         nodeset.search(search).collect { |x| x.inner_text.strip }
+    end
+
+    def self.time_greater_than?(time1, time2)
+        conv1 = Time.at(time1.hour * 60 * 60 + time1.minute * 60 + time1.sec)
+        conv2 = Time.at(time2.hour * 60 * 60 + time2.minute * 60 + time2.sec)
+        
+        return conv1 > conv2
+    end
+
+    def self.filter_passed_trains(train_data)
+        filtered_data = train_data.delete_if do |x|
+            x[:time].eql? '-' || time_greater_than?(Time.parse(x[:time]), Time.now)
+        end
+    end
+
+    def self.get_next_trains(num, stop)
+        table = get_caltrain_table
+        train_data = extract_stop(table, stop)
+
+        data =
+        {
+            :northbound => filter_passed_trains(train_data[:northbound])[0..(num - 1)],
+            :southbound => filter_passed_trains(train_data[:southbound])[0..(num - 1)]
+        }
+        return data
     end
 end
