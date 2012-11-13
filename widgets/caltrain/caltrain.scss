@@ -8,10 +8,13 @@ $title-color:       rgba(255, 255, 255, 0.7);;
 // Widget-buildbot styles
 // ----------------------------------------------------------------------------
 .widget-caltrain {
-    background-color: $background-color;
+    padding: 0px !important;
+
+    background-color: transparent;
 
     ul {
         display: table;
+        background-color: transparent;
         height: 100%;
         width: 100%;
         padding: 0px;
@@ -20,42 +23,67 @@ $title-color:       rgba(255, 255, 255, 0.7);;
         li {
             display: table-row;
             width: 100%;
-
+            
             span {
-                margin: 2px 0px 0px 0px;
-                padding: 5px 0px;
                 display: table-cell;
-                vertical-align:middle;
 
-                div {
+                ul {
+                    display: table;
                     height: 100%;
-                    background-color: $background-color;
-                    padding: 5px 0px;
+                    width: 100%;
+                    padding: 0px;
+                    margin: 0px;
 
-                    span {
-                        background-color: transparent;
-                        padding: 0px;
-                        display: inline-block;
-                        float: left;
-                    }
+                    li {
+                        display: table-row;
+                        width: 100%;
 
-                    .number {
-                        width: 50%;
-                        
-                        h2 {
-                            font-size: 25px;
+                        span {
+                            margin: 2px 0px 0px 0px;
+                            padding: 5px 0px;
+                            display: table-cell;
+                            vertical-align:middle;
+
+                            div {
+                                height: 100%;
+                                background-color: $background-color;
+                                padding: 5px 0px;
+
+                                span {
+                                    background-color: transparent;
+                                    padding: 0px;
+                                    display: inline-block;
+                                    float: left;
+                                }
+
+                                .number {
+                                    width: 20%;
+                                    
+                                }
+                                .type {
+                                    width: 50%;
+                                }
+
+                                .time {
+                                    width: 30%;
+                                }
+
+                                .notes {
+                                    display: none;
+                                }
+
+                                .title {
+                                    width: 100%;
+
+                                    h2 {
+                                        font-size: 25px;
+                                        color: $title-color;
+                                        text-transform: uppercase;
+                                        background-color: transparent;
+                                    }
+                                }
+                            }
                         }
-                    }
-                    .type {
-                        width: 30%;
-                    }
-
-                    .time {
-                        width: 20%;
-                    }
-
-                    .notes {
-                        display: none;
                     }
                 }
             }
@@ -70,17 +98,13 @@ $title-color:       rgba(255, 255, 255, 0.7);;
         font-size: 25px;
     }
 
+
     .template {
         display: none;
     }
 
-    .direction {
-
-        h1 {
-            font-size: 25px;
-            color: $title-color;
-            text-transform: uppercase;
-            background-color: transparent;
-        }
+    .section_template {
+        display: none;
     }
+
 }
