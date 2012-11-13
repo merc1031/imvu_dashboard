@@ -22,7 +22,6 @@ class Dashing.Buildbot extends Dashing.Widget
     shouldUpdate: (revision) ->
         @isDifferentRevision(revision) || @isDifferentState(revision.state)
 
-
     isDifferentRevision: (revision) ->
         revision.revisions.length > 0 && @currentBuild != revision.revisions[0].rev
 
@@ -31,9 +30,19 @@ class Dashing.Buildbot extends Dashing.Widget
 
     updateCurrent: (data) ->
         @updateColor $(@node), data.state
-        $(@node).find('.current .revisions').html('<h2>' + data.revisions[0].rev + ', ' + data.revisions[0].user + '</h2>')
+        @populateRevisions data.revisions
         @currentBuild = data.revisions[0].rev
         @currentState = data.state
+
+    populateRevisions: (revisions) ->
+        $elem = $(@node).find('.current .revisions')
+        $elem.empty()
+        console.log revisions
+        for revision in revisions
+            $elem.append('<h2>' + "#{revision.rev}, #{revision.user}" + '</h2>')
+
+    populateTime: (data) ->
+        $elem = $(@node).find('.current .time')
 
     updatePrevious: (data) ->
         @updateColor $(@node).find('.previous .cell .container'), data.state
