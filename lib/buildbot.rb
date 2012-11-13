@@ -4,8 +4,11 @@ require 'date'
 
 module Buildbot
 
+    BUILDER_PATH = 'json/builders/aggregator/builds'
+    AGGREGATOR_PATH = 'json/builders/aggregator/'
+
     def self.get_build(root_url, build)
-        base_uri = URI.parse("http://#{root_url}/json/builders/aggregator/builds/#{build}/");
+        base_uri = URI.parse("http://#{root_url}/#{Buildbot::BUILDER_PATH}/#{build}/");
         response = Net::HTTP.get_response(base_uri)
         if response.is_a?(Net::HTTPSuccess)
             JSON.parse(response.body)
@@ -21,7 +24,7 @@ module Buildbot
     end
 
     def self.get_aggregator(root_url)
-        base_uri = URI.parse("http://#{root_url}/json/builders/aggregator/");
+        base_uri = URI.parse("http://#{root_url}/#{Buildbot::AGGREGATOR_PATH}");
         response = Net::HTTP.get_response(base_uri)
         if response.is_a?(Net::HTTPSuccess)
             JSON.parse(response.body)
