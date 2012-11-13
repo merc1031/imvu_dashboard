@@ -145,16 +145,20 @@ module Caltrain
         nodeset.search(search).collect { |x| x.inner_text.strip }
     end
 
+    def self.remove_bad_trains(train)
+        train[:time].eql? '-' or time_greater_than?(Time.parse(train[:time]), Time.now)
+    end
+
     def self.time_greater_than?(time1, time2)
-        conv1 = Time.at(time1.hour * 60 * 60 + time1.minute * 60 + time1.sec)
-        conv2 = Time.at(time2.hour * 60 * 60 + time2.minute * 60 + time2.sec)
+        conv1 = Time.at(time1.hour * 60 * 60 + time1.min * 60 + time1.sec)
+        conv2 = Time.at(time2.hour * 60 * 60 + time2.min * 60 + time2.sec)
         
-        return conv1 > conv2
+        return conv1 < conv2
     end
 
     def self.filter_passed_trains(train_data)
-        filtered_data = train_data.delete_if do |x|
-            x[:time].eql? '-' || time_greater_than?(Time.parse(x[:time]), Time.now)
+        train_data.delete_if do |x|
+            remove_bad_trains x
         end
     end
 
