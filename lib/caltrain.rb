@@ -173,4 +173,12 @@ module Caltrain
         }
         return data
     end
+
+    def self.get_next_trains_for_direction(num, stop, direction)
+        data = get_next_trains(num, stop)
+        train_status =
+        {
+            :status => data[direction.to_sym]
+        }
+    end
 end
