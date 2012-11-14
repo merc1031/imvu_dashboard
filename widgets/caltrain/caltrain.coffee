@@ -4,8 +4,8 @@ class Dashing.Caltrain extends Dashing.Widget
         @onData Dashing.lastEvents[@id]
 
     onData: (data) ->
-        $(@node).find('.direction ul').empty()
         if data
+            $(@node).find('.direction ul').empty()
             @appendTitle()
             @updateStatus key, d for key, d of data.status
             
