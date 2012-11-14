@@ -73,6 +73,6 @@ module Buildbot
     end
 
     def self.extract_times(data)
-        data['times'].collect { |time| Time.at(time).strftime('%T') unless time.nil? }
+        data['times'].collect { |time| Time.at(time).strftime('%T') unless time.nil? or time.to_f == 0 }.compact
     end
 end

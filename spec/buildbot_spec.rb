@@ -10,13 +10,34 @@ describe Buildbot do
         end
     end
 
-    describe '#get_build_data' do
-        it 'should return the current and previous build data'
+    describe '#extract_revisions' do
+        it 'should format as [{ :user => username, :rev => revision}]' do
+            data = {
+                'sourceStamp' => {
+                    'changes' => [
+                        { 'who' => 'derp', 'rev' => '12345' },
+                        { 'who' => 'herp', 'rev' => '12346' }
+                    ]
+                }
+            }
+            expected = [{:user=>"derp", :rev=>"12345"}, {:user=>"herp", :rev=>"12346"}]
+            Buildbot.extract_revisions(data).should eq(expected)
+        end
     end
 
     describe '#extract_times' do
-        it 'should format the times as HH:MM:SS'
-        it 'should not process an invalid time'
+        it 'should format the times as HH:MM:SS' do
+            times = 20..22
+            expected = times.collect { |time| Time.at(time).strftime('%T') }
+            Buildbot.extract_times({ 'times' => times }).should eq(expected)
+        end
+
+        it 'should not process an invalid time' do
+            Buildbot.extract_times({ 'times' => [] }).should eq([])
+            Buildbot.extract_times({ 'times' => [nil] }).should eq([])
+            Buildbot.extract_times({ 'times' => [1, nil] }).should eq([ Time.at(1).strftime('%T') ])
+            Buildbot.extract_times({ 'times' => ['derp'] }).should eq([])
+        end
     end
 
     describe '#extract_state' do
