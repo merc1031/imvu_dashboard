@@ -13,13 +13,7 @@ module Caltrain
         base_uri = URI.parse("http://www.caltrain.com/schedules/weekdaytimetable.html")
         response = Net::HTTP.get_response(base_uri)
         if response.is_a?(Net::HTTPSuccess)
-            doc = Nokogiri::HTML(response.body)
-            tables = doc.search('td#right table')
-            data = 
-            {
-                :northbound => tables[1],
-                :southbound => tables[2]
-            }
+            return response.body
         end
     end
 
@@ -162,8 +156,25 @@ module Caltrain
         end
     end
 
+    def self.parse_caltrain_table(data)
+        doc = Nokogiri::HTML(data)
+        tables = doc.search('td#right table')
+        data = 
+        {
+            :northbound => tables[1],
+            :southbound => tables[2]
+        }
+    end
+
     def self.get_next_trains(num, stop)
-        table = get_caltrain_table
+        table = nil
+        if File.exists?('/var/tmp/caltrain.out')
+            table = File.read('/var/tmp/caltrain.out')
+        else
+            table = get_caltrain_table
+            File.open('/var/tmp/caltrain.out', 'w') { |f| f.write(table) }
+        end
+        table = parse_caltrain_table(table)
         train_data = extract_stop(table, stop)
 
         data =
