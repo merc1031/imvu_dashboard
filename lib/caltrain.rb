@@ -166,13 +166,26 @@ module Caltrain
         }
     end
 
+    def self.cache_train_schedule()
+        table = cache_train_schedule_and_return()
+        data = 
+        {
+            :status => nil
+        }
+    end
+
+    def self.cache_train_schedule_and_return()
+        table = get_caltrain_table
+        File.open('/var/tmp/caltrain.out', 'w') { |f| f.write(table) }
+        return table
+    end
+
     def self.get_next_trains(num, stop)
         table = nil
         if File.exists?('/var/tmp/caltrain.out')
             table = File.read('/var/tmp/caltrain.out')
         else
-            table = get_caltrain_table
-            File.open('/var/tmp/caltrain.out', 'w') { |f| f.write(table) }
+            table = cache_train_schedule_and_return()
         end
         table = parse_caltrain_table(table)
         train_data = extract_stop(table, stop)
