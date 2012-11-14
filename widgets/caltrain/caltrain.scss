@@ -1,0 +1,126 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color: #96bf48;
+$title-color:       rgba(0, 0, 0, 0.7);;
+
+// ----------------------------------------------------------------------------
+// Widget-buildbot styles
+// ----------------------------------------------------------------------------
+.widget-caltrain {
+    padding: 0px !important;
+
+    background-color: transparent;
+
+    ul {
+        display: table;
+        background-color: transparent;
+        height: 100%;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+
+        li {
+            display: table-row;
+            width: 100%;
+            
+            span {
+                display: table-cell;
+
+                ul {
+                    display: table;
+                    height: 100%;
+                    width: 100%;
+                    padding: 0px;
+                    margin: 0px;
+
+                    li {
+                        display: table-row;
+                        width: 100%;
+
+                        span {
+                            margin: 2px 0px 0px 0px;
+                            padding: 5px 0px;
+                            display: table-cell;
+                            vertical-align:middle;
+
+                            div {
+                                height: 100%;
+                                background-color: #333;
+                                padding: 5px 0px;
+
+                                span {
+                                    background-color: transparent;
+                                    padding: 0px;
+                                    display: inline-block;
+                                    float: left;
+                                }
+
+                                .number {
+                                    width: 20%;
+                                    
+                                }
+                                .type {
+                                    width: 50%;
+                                }
+
+                                .time {
+                                    width: 30%;
+                                }
+
+                                .notes {
+                                    display: none;
+                                }
+
+                                .title {
+                                    width: 100%;
+
+                                    h2 {
+                                        font-size: 25px;
+                                        color: $title-color;
+                                        text-transform: uppercase;
+                                        background-color: transparent;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    :first-child span {
+                        padding-top: 0px;
+
+                        div {
+                            background-color: #fff;
+                        }
+                    }
+
+                    :nth-child(2) span div {
+                        background-color: #CC3333;
+                    }
+
+                    :last-child span {
+                        padding-bottom: 0px;
+                    }
+                }
+            }
+        }
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 25px;
+    }
+
+
+    .template {
+        display: none;
+    }
+
+    .section_template {
+        display: none;
+    }
+
+}
