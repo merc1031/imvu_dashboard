@@ -30,7 +30,7 @@ namespace :deploy do
         run "cd #{current_path} && bundle exec thin stop"
     end
 
-    tast :restart do
+    task :restart do
         run "cd #{current_path} && bundle exec thin restart"
     end
 
