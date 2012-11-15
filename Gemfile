@@ -1,8 +1,10 @@
 source :rubygems
 
+gem 'thin'
 gem 'json'
 gem 'dashing'
 gem 'nokogiri'
+gem 'capistrano'
 
 group :development, :test do
     gem 'rspec'
