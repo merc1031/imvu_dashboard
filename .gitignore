@@ -2,3 +2,4 @@
 *.swo
 .jhw-cache/
 derp.rb
+log/

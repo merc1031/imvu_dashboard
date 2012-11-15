@@ -23,11 +23,15 @@ set :deploy_via, :remote_cache
 namespace :deploy do
     desc "Start dashing"
     task :start do
-        run "cd #{current_path} && bundle exec thin -d -R config.ru -e production -p #{thin_port}"
+        run "cd #{current_path} && bundle exec thin -d -R config.ru -e production -p #{thin_port} start"
     end
 
     task :stop do
         run "cd #{current_path} && bundle exec thin stop"
+    end
+
+    tast :restart do
+        run "cd #{current_path} && bundle exec thin restart"
     end
 
     task :finalize_update, :except => { :no_release => true } do
