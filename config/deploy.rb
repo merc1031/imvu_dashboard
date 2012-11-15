@@ -1,4 +1,4 @@
-require 'bundler/capistrano'
+require 'rvm/capistrano'
 
 ssh_options[:forward_agent] = true
 
@@ -16,6 +16,7 @@ role :web, domain
 role :app, domain
 role :db,  domain, :primary => true
 
+set :deploy_to, "/home/#{user}/#{application}"
 set :deploy_via, :remote_cache
 
 namespace :deploy do
@@ -26,6 +27,20 @@ namespace :deploy do
 
     task :stop do
         run "cd #{current_path} && bundle exec thin stop"
+    end
+
+    task :finalize_update, :except => { :no_release => true } do
+        run "chmod -R g+w #{latest_release}" if fetch(:group_writeable, true)
+
+        run <<-CMD
+            rm -rf #{latest_release}/log &&
+            mkdir -p #{latest_release}/public &&
+            mkdir -p #{latest_release}/tmp &&
+            ln -s #{shared_path}/log #{latest_release}/log
+        CMD
+
+        if fetch(:normalize_asset_timestamps, true)
+        end
     end
 end
 

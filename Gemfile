@@ -1,5 +1,6 @@
 source :rubygems
 
+gem 'thin'
 gem 'json'
 gem 'dashing'
 gem 'nokogiri'
