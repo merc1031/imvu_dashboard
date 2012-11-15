@@ -34,14 +34,18 @@ namespace :deploy do
         run "cd #{current_path} && bundle exec thin restart"
     end
 
+    task :migrate do
+        #nothing
+    end
+
     task :finalize_update, :except => { :no_release => true } do
         run "chmod -R g+w #{latest_release}" if fetch(:group_writeable, true)
 
         run <<-CMD
             rm -rf #{latest_release}/log &&
             mkdir -p #{latest_release}/public &&
-            mkdir -p #{latest_release}/tmp &&
-            ln -s #{shared_path}/log #{latest_release}/log
+            ln -s #{shared_path}/log #{latest_release}/log &&
+            ln -s #{shared_path}/pids #{latest_release}/tmp
         CMD
 
         if fetch(:normalize_asset_timestamps, true)
