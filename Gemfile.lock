@@ -90,3 +90,4 @@ DEPENDENCIES
   nokogiri
   rack-test
   rspec
+  thin
