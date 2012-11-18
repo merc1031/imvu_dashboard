@@ -7,10 +7,10 @@ require 'time'
 
 module Caltrain
 
-    @@noonSwitchOver = '151'
-    @@badHeads = ['Zone', 'Northbound Train No.']
-    def self.get_caltrain_table()
-        base_uri = URI.parse("http://www.caltrain.com/schedules/weekdaytimetable.html")
+    @@noonSwitchOver = ['151','433']
+    @@badHeads = ['Zone', 'Northbound Train No.', 'Train No.']
+    def self.get_caltrain_table(period)
+        base_uri = URI.parse("http://www.caltrain.com/schedules/#{period}timetable.html")
         response = Net::HTTP.get_response(base_uri)
         if response.is_a?(Net::HTTPSuccess)
             return response.body
@@ -29,7 +29,7 @@ module Caltrain
     def self.noon_train_index(header)
         endIndex = 0
         header.each_with_index do |item, index|
-            if item.eql? @@noonSwitchOver
+            if @@noonSwitchOver.include? item
                 endIndex = index
                 break
             end
@@ -46,12 +46,21 @@ module Caltrain
             departureMayBeDelayed = true
         end
 
-        if Integer(header_item) >= 300
-            type = "Baby Bullet"
-        elsif Integer(header_item) >= 200
-            type = "Limited-stop"
-        elsif Integer(header_item) >= 100
-            type = "Local"
+        if header_item.include? 'SAT.only'
+            header_item = header_item.delete 'SAT.only'
+            type = "SAT only"
+        else
+            if Integer(header_item) >= 800
+                type = "Weekend Baby Bullet"
+            elsif Integer(header_item) >= 400
+                type = "Local"
+            elsif Integer(header_item) >= 300
+                type = "Baby Bullet"
+            elsif Integer(header_item) >= 200
+                type = "Limited-stop"
+            elsif Integer(header_item) >= 100
+                type = "Local"
+            end
         end
         data =
         {
@@ -66,9 +75,9 @@ module Caltrain
         timelist.map.with_index { |x,i| add_metadata_to x, header[i] }
     end
 
-    def self.extract_stop(data, stop)
-        northRow = extract_one_stop data, :northbound, stop
-        southRow = extract_one_stop data, :southbound, stop
+    def self.extract_stop(data, stop, period)
+        northRow = extract_one_stop data, :northbound, stop, period
+        southRow = extract_one_stop data, :southbound, stop, period
         header = extract_header data
         noonIndex = noon_train_index header
         data = 
@@ -78,16 +87,19 @@ module Caltrain
         }
     end
 
-    def self.extract_one_stop(data, route, stop)
+    def self.extract_one_stop(data, route, stop, period)
+        index = period == 'weekday' ? 1 : 0
         rows = data[route].search('tr')
         stoprow = nil 
         rows.each do |row|
             entries = row.search('th')
-            name = entries[1].inner_text
-            name = name.gsub /[[:space:]]/, ' '
-            if name.include? stop 
-                stoprow = row
-                break
+            if ! entries.nil? && ! entries[index].nil?
+                name = entries[index].inner_text
+                name = name.gsub /[[:space:]]/, ' '
+                if name.include? stop 
+                    stoprow = row
+                    break
+                end
             end
         end
         ret = stoprow
@@ -156,39 +168,63 @@ module Caltrain
         end
     end
 
-    def self.parse_caltrain_table(data)
+    def self.parse_caltrain_table(data, period)
         doc = Nokogiri::HTML(data)
         tables = doc.search('td#right table')
-        data = 
-        {
-            :northbound => tables[1],
-            :southbound => tables[2]
-        }
+        if period == 'weekday'
+            data = 
+            {
+                :northbound => tables[1],
+                :southbound => tables[2]
+            }
+        else
+            data = 
+            {
+                :northbound => tables[0],
+                :southbound => tables[2]
+            }
+
+        end
     end
 
-    def self.cache_train_schedule()
-        table = cache_train_schedule_and_return()
+    def self.cache_train_schedule(period)
+        table = cache_train_schedule_and_return(period)
         data = 
         {
             :status => nil
         }
     end
 
-    def self.cache_train_schedule_and_return()
-        table = get_caltrain_table
-        File.open('/var/tmp/caltrain.out', 'w') { |f| f.write(table) }
+    def self.cache_train_schedule_and_return(period)
+        table = get_caltrain_table period
+        if File.exists?("/var/tmp/caltrainweekday.out")
+            File.delete("/var/tmp/caltrainweekday.out")
+        end
+        if File.exists?("/var/tmp/caltrainweekend.out")
+            File.delete("/var/tmp/caltrainweekend.out")
+        end
+        File.open("/var/tmp/caltrain#{period}.out", 'w') { |f| f.write(table) }
         return table
+    end
+
+    def self.getPeriod()
+        if [1..5].include? Time.now.wday
+            period = 'weekday'
+        else
+            period = 'weekend'
+        end
     end
 
     def self.get_next_trains(num, stop)
         table = nil
-        if File.exists?('/var/tmp/caltrain.out')
-            table = File.read('/var/tmp/caltrain.out')
+        period = getPeriod
+        if File.exists?("/var/tmp/caltrain#{period}.out") && ((Time.now - File.mtime("/var/tmp/caltrain#{period}.out") < (24 * 60 * 60)))
+            table = File.read("/var/tmp/caltrain#{period}.out")
         else
-            table = cache_train_schedule_and_return()
+            table = cache_train_schedule_and_return(period)
         end
-        table = parse_caltrain_table(table)
-        train_data = extract_stop(table, stop)
+        table = parse_caltrain_table(table, period)
+        train_data = extract_stop(table, stop, period)
 
         data =
         {
