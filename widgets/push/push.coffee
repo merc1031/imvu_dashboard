@@ -1,9 +1,5 @@
 class Dashing.Push extends Dashing.Widget
 
-    in_progress = '#eb9c3c'
-    failure     = '#dc5945'
-    success     = '#96bf48'
-
     ready: ->
         @onData Dashing.lastEvents[@id]
 
@@ -24,11 +20,11 @@ class Dashing.Push extends Dashing.Widget
 
         $elem.find('.rising').toggle(data.status != 1)
         if data.status < 0
-            $elem.find('div').css('background-color', in_progress)
+            @setColor $elem.find('div'), 'building'
         else if data.status == 0
-            $elem.find('div').css('background-color', failure)
+            @setColor $elem.find('div'), 'failure'
         else
-            $elem.find('div').css('background-color', success)
+            @setColor $elem.find('div'), 'success'
 
     appendNew: (key) ->
         $elem = $(@node).find('.template li').clone()
@@ -42,3 +38,7 @@ class Dashing.Push extends Dashing.Widget
         else
             $elem.find('.time h1').text('Started')
             $elem.find('.time h2').text(data.start)
+
+    setColor: ($target, cssClass) ->
+        $target.removeClass('success').removeClass('building').removeClass('failure').removeClass('exception')
+        $target.addClass(cssClass)
