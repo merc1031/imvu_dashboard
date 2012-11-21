@@ -313,7 +313,7 @@ module Caltrain
     end
 
     def self.getPeriod()
-        if [1..5].include? Time.now.wday
+        if (1..5).include? Time.now.wday
             period = 'weekday'
         else
             period = 'weekend'
