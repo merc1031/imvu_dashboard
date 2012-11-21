@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------
 $background-color: #96bf48;
 $title-color:       rgba(0, 0, 0, 0.7);;
+$title-color-inverted:       rgba(255, 255, 255, 0.7);;
 
 // ----------------------------------------------------------------------------
 // Widget-buildbot styles
@@ -46,7 +47,7 @@ $title-color:       rgba(0, 0, 0, 0.7);;
 
                             div {
                                 height: 100%;
-                                background-color: #333;
+                                background-color: #EEE;
                                 padding: 5px 0px;
 
                                 span {
@@ -90,12 +91,15 @@ $title-color:       rgba(0, 0, 0, 0.7);;
                         padding-top: 0px;
 
                         div {
-                            background-color: #fff;
+                            background-color: #222;
+                            h2 {
+                                color: $title-color-inverted !important;
+                            }
                         }
                     }
 
                     :nth-child(2) span div {
-                        background-color: #CC3333;
+                        background-color: #d14747;
                     }
 
                     :last-child span {

@@ -1,6 +1,4 @@
 class Dashing.Buildbot extends Dashing.Widget
-    # Pick colors from here:
-    #   https://kuler.adobe.com/#themeID/2147968
 
     currentBuild: 0
     currentState: 'unknown'

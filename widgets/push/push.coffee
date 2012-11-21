@@ -1,12 +1,5 @@
 class Dashing.Push extends Dashing.Widget
 
-    # Pick colors from here:
-    #   https://kuler.adobe.com/#themeID/2123634
-    success:   '#007215'
-    building:  '#F2BC79'
-    failure:   '#BF1B39'
-    exception: '#730240'
-
     ready: ->
         @onData Dashing.lastEvents[@id]
 
