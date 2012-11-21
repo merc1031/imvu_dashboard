@@ -5,8 +5,8 @@
 // ----------------------------------------------------------------------------
 // Sass declarations
 // ----------------------------------------------------------------------------
-$background-color: #222;
-$text-color: #fff;
+$body-background-color: #222;
+$text-color: #222;
 
 $background-warning-color-1: #e82711;
 $background-warning-color-2: #9b2d23;
@@ -16,16 +16,6 @@ $background-danger-color-1: #eeae32;
 $background-danger-color-2: #ff9618;
 $text-danger-color: #fff;
 
-@-webkit-keyframes status-warning-background {
-  0%   { background-color: $background-warning-color-1; }
-  50%  { background-color: $background-warning-color-2; }
-  100% { background-color: $background-warning-color-1; }
-}
-@-webkit-keyframes status-danger-background {
-  0%   { background-color: $background-danger-color-1; }
-  50%  { background-color: $background-danger-color-2; }
-  100% { background-color: $background-danger-color-1; }
-}
 @mixin animation($animation-name, $duration, $function, $animation-iteration-count:""){
   -webkit-animation:  $animation-name $duration $function #{$animation-iteration-count};
   -moz-animation:     $animation-name $duration $function #{$animation-iteration-count};
@@ -43,7 +33,7 @@ html {
 
 body { 
   margin: 0; 
-  background-color: $background-color;
+  background-color: $body-background-color;
   font-size: 20px;
   color: $text-color;
   font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -149,7 +139,8 @@ h3 {
 }
 
 .widget.status-warning {
-  background-color: $background-warning-color-1;
+  // background-color: $warning-color;
+  // background-color: $background-warning-color-1;
   @include animation(status-warning-background, 2s, ease, infinite);
 
   .icon-warning-sign { 
@@ -253,3 +244,22 @@ h3 {
 .clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
 
+
+
+
+// https://kuler.adobe.com/#themeID/2147968
+.success {
+  background-color: rgb(0, 255, 133);
+}
+
+.building {
+  background-color: #FAFF82;
+}
+
+.exception {
+  background-color: #C6C;
+}
+
+.failure {
+  background-color: #FF6161;
+}

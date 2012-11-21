@@ -1,9 +1,6 @@
 class Dashing.Buildbot extends Dashing.Widget
-
-    success:    '#96bf48'
-    building:   '#eb9c3c'
-    failure:    '#dc5945'
-    exception:  '#9c4274'
+    # Pick colors from here:
+    #   https://kuler.adobe.com/#themeID/2147968
 
     currentBuild: 0
     currentState: 'unknown'
@@ -66,10 +63,11 @@ class Dashing.Buildbot extends Dashing.Widget
 
     updateColor: ($target, state) ->
         switch state
-            when 'idle' then @setColor $target, @success
-            when 'building' then @setColor $target, @building
-            when 'failure' then @setColor $target, @failure
-            when 'exception' then @setColor $target, @exception
+            when 'idle' then @setColor $target, 'success'
+            when 'building' then @setColor $target, 'building'
+            when 'failure' then @setColor $target, 'failure'
+            when 'exception' then @setColor $target, 'exception'
 
-    setColor: ($target, color) ->
-        $target.css('background-color', color)
+    setColor: ($target, cssClass) ->
+        $target.removeClass('success').removeClass('building').removeClass('failure').removeClass('exception')
+        $target.addClass(cssClass)
